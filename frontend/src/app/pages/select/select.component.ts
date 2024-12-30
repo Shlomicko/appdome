@@ -9,6 +9,7 @@ import { TreeDataService } from '../../services/tree-data.service';
 import { UiTreeNode } from '../../models/ui-tree-node';
 import { AsyncPipe } from '@angular/common';
 import { tap } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-select',

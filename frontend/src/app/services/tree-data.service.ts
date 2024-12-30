@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { UiTreeNode } from '../models/ui-tree-node';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { mockTreeData } from '../mocks/data';
 import { TreeData, TreeNode } from '../models/tree-node';
 import { HttpClient } from '@angular/common/http';
 
