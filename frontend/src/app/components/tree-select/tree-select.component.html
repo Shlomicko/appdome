@@ -1,0 +1,38 @@
+<div class="tree-select-container">
+  <!-- Srech -->
+  @if (showSearch) {
+    <div class="search-container">
+      <input
+        #searchInput
+        type="text"
+        placeholder="Search..."
+        class="search-input"
+      />
+    </div>
+  }
+  <!-- Selected items display -->
+  @if (multiSelect && selectedNodes.length > 0) {
+    <div class="selected-items">
+      @for (node of selectedNodes; track node.id) {
+        <div class="selected-item">
+          {{ node.label }}
+          <span class="remove-item" (click)="toggleSelection(node)">×</span>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="tree-container">
+    <ul class="tree-list">
+      @for (node of treeData; track node.id) {
+        <app-tree-node
+          [node]="node"
+          [multiSelect]="multiSelect"
+          (expandToggle)="toggleExpand($event)"
+          (selectionChange)="toggleSelection($event)"
+        >
+        </app-tree-node>
+      }
+    </ul>
+  </div>
+</div>
