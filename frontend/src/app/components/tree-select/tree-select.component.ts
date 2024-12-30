@@ -135,7 +135,6 @@ export class TreeSelectComponent implements AfterViewInit {
   }
 
   protected onSendSelected() {
-    const ooo = this.extractSelectedNodes(this.treeData)
-    this.submitUserSelectedNodes.emit(ooo);
+    this.submitUserSelectedNodes.emit(this.extractSelectedNodes(this.treeData));
   }
 }
