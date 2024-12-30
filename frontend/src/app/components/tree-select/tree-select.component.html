@@ -13,12 +13,7 @@
   <!-- Selected items display -->
   @if (multiSelect && selectedNodes.length > 0) {
     <div class="selected-items">
-      @for (node of selectedNodes; track node.id) {
-        <div class="selected-item">
-          {{ node.label }}
-          <span class="remove-item" (click)="toggleSelection(node)">×</span>
-        </div>
-      }
+      {{ selectedNodesName }}
     </div>
   }
 
@@ -35,4 +30,7 @@
       }
     </ul>
   </div>
+  <button [disabled]="!selectedNodesName.length" (click)="onSendSelected()">
+    Send
+  </button>
 </div>

@@ -14,7 +14,7 @@ import { UiTreeNode } from '../../models/ui-tree-node';
 import { TreeNodeComponent } from '../tree-node/tree-node.component';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, fromEvent, map } from 'rxjs';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-tree-select',
@@ -30,9 +30,10 @@ export class TreeSelectComponent implements AfterViewInit {
   treeData!: UiTreeNode[];
   @Input() multiSelect = true;
   @Input() showSearch = true;
-  @Output() selectionChange = new EventEmitter<UiTreeNode | UiTreeNode[]>();
+  @Output() submitUserSelectedNodes = new EventEmitter<UiTreeNode[]>();
 
-  selectedNodes: UiTreeNode[] = [];
+  protected selectedNodes: UiTreeNode[] = [];
+  selectedNodesName: string = '';
 
   @ViewChild('searchInput')
   searchInput!: ElementRef;
@@ -43,15 +44,12 @@ export class TreeSelectComponent implements AfterViewInit {
         .pipe(
           debounceTime(500),
           map((event) => {
-            console.log('ngAfterViewInit', event);
-            //const input: HTMLInputElement = event
             const evt = event as unknown as Event;
             return (evt.target as HTMLInputElement).value;
           }),
         )
         .subscribe((query) => {
           if (query) {
-            console.log(query);
           }
         });
     }
@@ -78,13 +76,12 @@ export class TreeSelectComponent implements AfterViewInit {
 
       this.updateParentSelection(node.parent);
 
-      this.selectedNodes = this.getAllSelectedNodes(this.treeData);
-      this.selectionChange.emit(this.selectedNodes);
+      this.selectedNodes = this.extractSelectedNodes(this.treeData);
+      this.selectedNodesName = this.selectedNodes.map(node => node.label).join(', ');
       this.treeData = structuredClone(this.treeData);
     } else {
       this.clearSelection(this.treeData);
       node.selected = true;
-      this.selectionChange.emit(node);
     }
   }
 
@@ -121,18 +118,24 @@ export class TreeSelectComponent implements AfterViewInit {
     });
   }
 
-  private getAllSelectedNodes(nodes: UiTreeNode[]): UiTreeNode[] {
+  private extractSelectedNodes(nodes: UiTreeNode[]): UiTreeNode[] {
     let selected: UiTreeNode[] = [];
 
     nodes.forEach((node) => {
       if (node.selected) {
+        node.parent = undefined;
         selected.push(node);
       }
       if (node.children?.length) {
-        selected = selected.concat(this.getAllSelectedNodes(node.children));
+        selected = selected.concat(this.extractSelectedNodes(node.children));
       }
     });
 
     return selected;
+  }
+
+  protected onSendSelected() {
+    const ooo = this.extractSelectedNodes(this.treeData)
+    this.submitUserSelectedNodes.emit(ooo);
   }
 }

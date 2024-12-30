@@ -1,4 +1,4 @@
-export const mockTreeData = {
+const mockTreeData = {
   nodes: [
     {
       id: '1',
@@ -97,3 +97,5 @@ export const mockTreeData = {
     },
   ],
 };
+
+module.exports = {mockTreeData};

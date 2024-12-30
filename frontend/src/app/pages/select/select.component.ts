@@ -21,11 +21,11 @@ import {HttpClient} from '@angular/common/http';
 export class SelectComponent implements OnInit {
   private dataService: TreeDataService = inject(TreeDataService);
 
-  treeData$ = this.dataService.data$.pipe(
-    tap((data) => console.log('poop', data)),
-  );
+  treeData$ = this.dataService.data$;
 
-  protected onSelectionchange($event: UiTreeNode | UiTreeNode[]) {}
+  protected onSubmitSelection(nodes: UiTreeNode[]) {
+    this.dataService.setData(nodes)
+  }
 
   ngOnInit(): void {
     this.dataService.getData();

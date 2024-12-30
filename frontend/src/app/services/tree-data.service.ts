@@ -8,16 +8,15 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class TreeDataService {
+
   private dataSubject: BehaviorSubject<UiTreeNode[]> = new BehaviorSubject<
     UiTreeNode[]
   >([]);
   data$: Observable<UiTreeNode[]> = this.dataSubject.asObservable();
 
-  private readonly http: HttpClient = inject(HttpClient);
-
   private readonly path = 'http://localhost:3000';
 
-  constructor() {}
+  constructor(private readonly http: HttpClient) {}
 
   getData(): void {
     this.http
@@ -26,10 +25,10 @@ export class TreeDataService {
       .subscribe((uiData) => this.dataSubject.next(uiData));
   }
 
-  setData(data: UiTreeNode[]): void {
+  setData(nodes: UiTreeNode[]): void {
     this.http
       .post<TreeData>(`${this.path}/api/process-data`, {
-        data: { nodes: data },
+        nodes
       })
       .subscribe();
   }

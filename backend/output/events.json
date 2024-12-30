@@ -1,0 +1,29 @@
+[
+  {
+    "id": "2.2.2",
+    "label": "Tech_Talks",
+    "category": "events",
+    "children": [],
+    "selected": true,
+    "expanded": false,
+    "visible": false
+  },
+  {
+    "id": "2.2.1",
+    "label": "Frontend_Meetup",
+    "category": "events",
+    "children": [],
+    "selected": true,
+    "expanded": false,
+    "visible": false
+  },
+  {
+    "id": "2.2.2",
+    "label": "Tech_Talks",
+    "category": "events",
+    "children": [],
+    "selected": true,
+    "expanded": false,
+    "visible": false
+  }
+]
